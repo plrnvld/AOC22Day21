@@ -1,5 +1,5 @@
 dict = {}
-humn_test = -171783399
+humn_test = 3769668716709
 humn_calls = 0
 
 class Expr:
@@ -43,7 +43,7 @@ def evaluate(name):  # root: vpmn + pqtt
     if (name == "humn"): # humn is requested for vpmn, pqtt is always 40962717833337
         global humn_calls
         humn_calls += 1
-        print("humn queried")
+        print(f"humn queried, humn_calls is now {humn_calls}")
         return humn_test
    
     value = dict[name]
@@ -60,18 +60,20 @@ def solve_with(name, value_to_reach):
     print(f"> Solving {name}")
     if (name == "humn"):        
         print(f"Great success, humn should be {value_to_reach}")
+        print()
     else:
         to_evaluate = dict[name]
         if (isinstance(to_evaluate, Val)):
+            print("Error, no humn found")
             return
         else:
             expr_to_solve = to_evaluate
             left = expr_to_solve.left
             op = expr_to_solve.op
             right = expr_to_solve.right
-            humn_count = humn_calls
+            curr_humn_count = humn_calls
             evaluate(left)
-            humn_left = humn_count > humn_calls
+            humn_left = humn_calls > curr_humn_count
             if (humn_left):
                 print(">> humn on the left")
                 solve_left(left, op, evaluate(right), value_to_reach)
@@ -117,7 +119,7 @@ def solve_right(value_left, op, name, value_to_reach):
 print(f"{len(dict)}")
 
 # res = evaluate("root")
-res = evaluate("pqtt")
+res = evaluate("pqtt") # 3769668716709
 
 print(f"{res} compared to")
 print("40962717833337")
@@ -129,6 +131,7 @@ if (res > 40962717833337):
     print("Too large")
 
 if (res == 40962717833337):
-    print("Great success")
+    print("Great success!")
+    print()
 
 solve_root()
